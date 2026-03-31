@@ -25,9 +25,13 @@ echo "[2/3] デスクトップ環境を検出中..."
 if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]] || [[ "$XDG_CURRENT_DESKTOP" == *"Unity"* ]]; then
     echo "      GNOME を検出しました"
 
+    # 既存のカスタムショートカット一覧を取得
     EXISTING=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings 2>/dev/null || echo "@as []")
+
+    # 新しいショートカットのパス
     NEW_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/youtube-studio/"
 
+    # パスを追加（重複チェック）
     if echo "$EXISTING" | grep -q "youtube-studio"; then
         echo "      既存の設定を上書きします"
     else
@@ -39,6 +43,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]] || [[ "$XDG_CURRENT_DESKTOP" == *"U
         fi
     fi
 
+    # ショートカットの設定
     gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/youtube-studio/ name "$SHORTCUT_NAME"
     gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/youtube-studio/ command "$SHORTCUT_CMD"
     gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/youtube-studio/ binding "$SHORTCUT_KEY"
@@ -53,6 +58,7 @@ elif [[ "$XDG_CURRENT_DESKTOP" == *"KDE"* ]]; then
 [youtube-studio.desktop]
 _launch=Ctrl+Alt+Y,none,YouTube Studio
 KDEEOF
+    # デスクトップファイルも作成
     mkdir -p ~/.local/share/applications
     cat > ~/.local/share/applications/youtube-studio.desktop << DESKTOPEOF
 [Desktop Entry]
@@ -66,6 +72,7 @@ DESKTOPEOF
 
 elif [[ "$XDG_CURRENT_DESKTOP" == *"XFCE"* ]]; then
     echo "      XFCE を検出しました"
+    # xfconf を使って設定
     if command -v xfconf-query &> /dev/null; then
         xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/<Primary><Alt>y" -n -t string -s "$SHORTCUT_CMD"
         echo "      XFCE ショートカット設定完了: Ctrl+Alt+Y"
@@ -80,6 +87,7 @@ else
     echo "      キー: Ctrl+Alt+Y"
 fi
 
+# 3. 動作テスト
 echo ""
 echo "[3/3] セットアップ完了!"
 echo ""
