@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=YouTube Studio
+Name[ja]=YouTube Studio
+Comment=YouTube Studio を開く
+Comment[ja]=YouTube Studio を開く
+Exec=/bin/bash /path/to/open-youtube-studio.sh
+Icon=youtube
+Terminal=false
+Categories=Network;VideoProduction;
+Keywords=youtube;studio;動画;ショートカット;
