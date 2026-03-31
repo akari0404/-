@@ -1,8 +1,8 @@
 #!/bin/bash
 # YouTube Studio を開くスクリプト
-# 使い方: このスクリプトにショートカットキーを割り当てる
+# ショートカットキー: Ctrl+Alt+Y
 
-URL="https://studio.youtube.com"
+URL="https://studio.youtube.com/channel/UCTLPmcqT0CK_LF905kJUzjg?c=UCTLPmcqT0CK_LF905kJUzjg"
 
 # 利用可能なブラウザを順番に試す
 if command -v google-chrome &> /dev/null; then
